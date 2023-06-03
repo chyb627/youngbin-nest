@@ -2,7 +2,7 @@
 
 node_nest_backend
 
-### step
+### install step
 
 - npm i -g @nestjs/cli
 - 설치가 완료되면 nest라는 명령어를 사용할 수 있게 된다.
