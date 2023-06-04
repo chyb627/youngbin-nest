@@ -25,3 +25,7 @@ node_nest_backend
 ### middleware 생성
 
 - nest g middleware logger
+
+### pipe
+
+- 파이프는 클라이언트 요청에서 들어오는 데이터를 유효성 검사 및 변환을 수행하여 서버가 원하는 데이터를 얻을 수 있도록 도와주는 클래스.
