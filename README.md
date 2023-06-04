@@ -21,3 +21,7 @@ node_nest_backend
 ### service 생성
 
 - nest g service cats(서비스명)
+
+### middleware 생성
+
+- nest g middleware logger
