@@ -17,3 +17,7 @@ node_nest_backend
 ### controller 생성
 
 - nest g controller cats(컨트롤러명)
+
+### service 생성
+
+- nest g service cats(서비스명)
