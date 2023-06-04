@@ -9,3 +9,7 @@ node_nest_backend
 
 - nest new ./
 - 현재 폴더로 nest 초기세팅을 한다.
+
+### module 만들기
+
+- nest g module cats(모듈명, 복수로 짓는게 일반적임)
