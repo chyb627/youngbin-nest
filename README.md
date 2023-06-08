@@ -30,7 +30,18 @@ node_nest_backend
 
 - 파이프는 클라이언트 요청에서 들어오는 데이터를 유효성 검사 및 변환을 수행하여 서버가 원하는 데이터를 얻을 수 있도록 도와주는 클래스.
 
+### Docker Setting
 
-### Docker 컨테이너 실행
+- docker pull postgres
+- docker run -d -p 5432:5432 --name pgsql -e POSTGRES_PASSWORD=1234 postgres
+- docker exec -it postgres bash
+- psql -U postgres
+- CREATE DATABASE youngbindb;
 
-- docker-compose up -d
+1. SELECT datname FROM pg_database; // show databases
+2. CREATE DATABASE youngbindb; //create
+3. \c youngbindb; // use db
+
+### Docker yml 컨테이너 실행
+
+- docker-compose up
