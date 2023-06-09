@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SignupDto } from '../dto/signup.dto';
@@ -14,20 +14,20 @@ export class AuthService {
   async signUp(signupDto: SignupDto) {
     const { name, email, password } = signupDto;
     const result = {
-      status: 201,
-      message: '',
-      success: false,
+      status: 200,
+      message: '회원가입이 완료되었습니다.',
+      success: true,
     };
 
     try {
       await this.userRepository.save({ name, email, password });
-      result.status = 302;
-      result.message = '회원가입이 완료되었습니다.';
-      result.success = true;
     } catch (e) {
       console.log(e);
-      result.status = 400;
-      result.message = '에러입니다.';
+      if (e.code === '23505') {
+        throw new ConflictException('이 이메일 주소는 이미 사용 중입니다.');
+      } else {
+        throw new InternalServerErrorException();
+      }
     }
 
     return result;

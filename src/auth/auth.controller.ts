@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignupDto } from '../dto/signup.dto';
 
@@ -7,7 +7,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('signup')
-  async signUp(@Body() signupDto: SignupDto) {
+  async signUp(@Body(ValidationPipe) signupDto: SignupDto) {
     const result = await this.authService.signUp(signupDto);
     // console.log(result);
     return result;
