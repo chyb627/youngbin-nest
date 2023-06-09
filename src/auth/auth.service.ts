@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './user.entity';
+import { SignupDto } from '../dto/signup.dto';
+import { User } from 'src/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -11,9 +11,8 @@ export class AuthService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async signUp(createUserDto: CreateUserDto) {
-    const { name, email, password } = createUserDto;
-
+  async signUp(signupDto: SignupDto) {
+    const { name, email, password } = signupDto;
     const result = {
       status: 201,
       message: '',
@@ -21,7 +20,7 @@ export class AuthService {
     };
 
     try {
-      // await this.userRepository.createQueryBuilder().insert().into(User).values({ email, password, name }).execute();
+      await this.userRepository.save({ name, email, password });
       result.status = 302;
       result.message = '회원가입이 완료되었습니다.';
       result.success = true;
