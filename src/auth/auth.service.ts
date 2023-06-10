@@ -1,9 +1,10 @@
 import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { SignupDto } from '../dto/signup.dto';
-import { User } from 'src/entities/user.entity';
 import * as bcrypt from 'bcryptjs';
+import { User } from 'src/entities/user.entity';
+import { SignupDto } from 'src/dto/signup.dto';
+import { SigninDto } from 'src/dto/signin.dto';
 
 @Injectable()
 export class AuthService {
@@ -35,5 +36,22 @@ export class AuthService {
     }
 
     return result;
+  }
+
+  async signIn(signInDto: SigninDto) {
+    const { email, password } = signInDto;
+    const user = await this.userRepository.findOne({ where: { email } });
+
+    const result = {
+      status: 200,
+      message: '로그인이 완료되었습니다.',
+      success: true,
+    };
+
+    if (user && (await bcrypt.compare(password, user.password))) {
+      return result;
+    } else {
+      throw new ConflictException('아이디와 패스워드를 확인해주세요.');
+    }
   }
 }
