@@ -1,5 +1,6 @@
 import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { User } from 'src/entities/user.entity';
@@ -10,7 +11,8 @@ import { SigninDto } from 'src/dto/signin.dto';
 export class AuthService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private userRepository: Repository<User>,
+    private jwtService: JwtService,
   ) {}
 
   async signUp(signupDto: SignupDto) {
@@ -46,9 +48,13 @@ export class AuthService {
       status: 200,
       message: '로그인이 완료되었습니다.',
       success: true,
+      token: '',
     };
 
     if (user && (await bcrypt.compare(password, user.password))) {
+      const payload = { email };
+      const accessToken = await this.jwtService.sign(payload);
+      result.token = accessToken;
       return result;
     } else {
       throw new ConflictException('아이디와 패스워드를 확인해주세요.');
