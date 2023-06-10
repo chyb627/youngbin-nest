@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SignupDto } from '../dto/signup.dto';
 import { User } from 'src/entities/user.entity';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class AuthService {
@@ -13,6 +14,9 @@ export class AuthService {
 
   async signUp(signupDto: SignupDto) {
     const { name, email, password } = signupDto;
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     const result = {
       status: 200,
       message: '회원가입이 완료되었습니다.',
@@ -20,7 +24,7 @@ export class AuthService {
     };
 
     try {
-      await this.userRepository.save({ name, email, password });
+      await this.userRepository.save({ name, email, password: hashedPassword });
     } catch (e) {
       console.log(e);
       if (e.code === '23505') {

@@ -38,10 +38,23 @@ node_nest_backend
 - psql -U postgres
 - CREATE DATABASE youngbindb;
 
+#### postgresql
+
 1. SELECT datname FROM pg_database; // show databases
 2. CREATE DATABASE youngbindb; //create
 3. \c youngbindb; // use db
+4. SELECT _ FROM "public"."user"; // SELECT _ FROM user
 
 ### Docker yml 컨테이너 실행
 
 - docker-compose up
+
+### 비밀번호 암호화
+
+- npm install bcryptjs --save
+
+#### 비밀번호를 데이터베이스에 저장하는 방법
+
+- 원본 비밀번호를 저장하면 최악.
+- 비밀번호를 암호화 키 (Encryption Key)와 함께 암호화(양방향) -> 암호화 키가 노출되면 알고리즘은 대부분 오픈되어있기 때문에 위험도가 높다.
+- SHA256등으로 해시(Hash)해서 저장(단방향) -> 레인보우테이블등에 취약함.
