@@ -3,6 +3,8 @@ import { AuthService } from './auth.service';
 import { SignupDto } from 'src/dto/signup.dto';
 import { SigninDto } from 'src/dto/signin.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from './get-user.decorator';
+import { User } from 'src/entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -24,7 +26,7 @@ export class AuthController {
 
   @Post('jwttest')
   @UseGuards(AuthGuard())
-  jwtTest(@Req() req) {
-    console.log('req:::', req);
+  jwtTest(@GetUser() user: User) {
+    console.log('user:::', user);
   }
 }
