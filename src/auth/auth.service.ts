@@ -15,6 +15,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  // 회원가입
   async signUp(signupDto: SignupDto) {
     const { name, email, password } = signupDto;
     const salt = await bcrypt.genSalt();
@@ -40,6 +41,7 @@ export class AuthService {
     return result;
   }
 
+  // 로그인
   async signIn(signInDto: SigninDto) {
     const { email, password } = signInDto;
     const user = await this.userRepository.findOne({ where: { email } });
