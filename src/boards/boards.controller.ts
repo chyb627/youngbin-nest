@@ -1,59 +1,37 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Logger,
-  Param,
-  ParseIntPipe,
-  Patch,
-  Post,
-  UseGuards,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { BoardsService } from './boards.service';
-import { Board } from 'src/entities/board.entity';
-import { CreateBoardDto } from 'src/dto/createBoard.dto';
-import { BoardStatusValidationPipe } from 'src/pipes/board-status-validation.pipe';
-import { BoardStatus } from './board-status.enum';
-import { AuthGuard } from '@nestjs/passport';
-import { GetUser } from 'src/auth/get-user.decorator';
-import { User } from 'src/entities/user.entity';
 
 @Controller('boards')
-@UseGuards(AuthGuard())
 export class BoardsController {
-  private logger = new Logger('BoardsController');
-  constructor(private boardsService: BoardsService) {}
+  constructor(private readonly boardsService: BoardsService) {}
 
+  // 게시물 전부 가져오기
   @Get()
-  getAllBoards(@GetUser() user: User): Promise<Board[]> {
-    this.logger.verbose(`User ${user.email} trying to get all boards`);
-    return this.boardsService.getAllBoards(user);
+  findAll() {
+    return this.boardsService.findAll();
   }
 
+  // 게시물 하나 가져오기
+  @Get(':id')
+  find(@Param('id') id: string) {
+    return this.boardsService.find(Number(id));
+  }
+
+  // 게시물 등록하기
   @Post()
-  @UsePipes(ValidationPipe)
-  createBoard(@Body() createBoardDto: CreateBoardDto, @GetUser() user: User): Promise<Board> {
-    return this.boardsService.createBoard(createBoardDto, user);
+  create(@Body() data) {
+    return this.boardsService.create(data);
   }
 
-  @Get('/:id')
-  getBoardById(@Param('id') id: number): Promise<Board> {
-    return this.boardsService.getBoardById(id);
+  // 게시물 수정하기
+  @Put(':id')
+  update(@Param('id') id: string, @Body() data) {
+    return this.boardsService.update(Number(id), data);
   }
 
-  @Delete('/:id')
-  deleteBoard(@Param('id', ParseIntPipe) id, @GetUser() user: User): Promise<void> {
-    return this.boardsService.deleteBoard(id, user);
-  }
-
-  @Patch('/:id/status')
-  updateBoardStatus(
-    @Param('id', ParseIntPipe) id: number,
-    @Body('status', BoardStatusValidationPipe) status: BoardStatus,
-  ) {
-    return this.boardsService.updateBoardStatus(id, status);
+  // 게시물 삭제하기
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.boardsService.remove(Number(id));
   }
 }
