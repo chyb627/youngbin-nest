@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { CreateBoardsDto } from './dto/create-boards.dto';
 
 @Injectable()
 export class BoardsService {
@@ -64,7 +65,7 @@ export class BoardsService {
     return this.boards[index];
   }
 
-  create(data) {
+  create(data: CreateBoardsDto) {
     const newBoard = { id: this.getNextId(), ...data };
     this.boards.push(newBoard);
     return newBoard;

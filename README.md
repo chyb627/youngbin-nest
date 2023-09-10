@@ -170,6 +170,54 @@ get(
 - URL에서 안전하게 사용할 수 있는 방식
 - ex. user-profile.controller.ts
 
+18. DTO(Data Transfer Object)
+
+- 계층 간 데이터 전송을 위해 사용되는 객체
+- API 요청에서 받아온 데이터를 타입에 맞게 바인딩 및 유효성 검사
+- Service 계층과 Controller 계층 사이에 데이터를 전달
+- Response 객체로 데이터를 클라이언트에 전달
+
+19. NestJS DTO
+
+- 클래스로 선언
+- 타입스크립트와 class-validator를 사용하여 강력한 데이터 유효성 검사 가능
+
+```js
+export class CreateUserDto {
+  @MinLength(5)
+  @MaxLength(20)
+  @IsNotEmpty()
+  username: string;
+
+  @MinLength(8)
+  @MaxLength(50)
+  @IsNotEmpty()
+  pw: string;
+
+  @IsNotEmpty()
+  name: string;
+
+  @IsOptional()
+  gender?: string;
+}
+```
+
+20. 파이프(Pipes)
+
+- Route Handler가 실행되기 전 특정로직을 수행
+- 유효성 검사 : HTTP 요청을 처리할때 입력된 데이터가 DTO에 명시된 형태와 일치하는지 확인
+- 데이터 변환 : 입력된 데이터를 다른 형태로 변환 ex. 문자열로 제공된 날짜를 Date 객체로 변환
+- NestJS 내장 파이프
+  - ValidationPipe : DTO에 명시된 형식을 체크하는 파이프.
+  - ParseIntPipe
+  - ParseFloatPipe
+  - ParseBoolPipe
+  - ParseArrayPipe
+  - ParseUUIDPipe
+  - ParseEnumPipe
+  - DefaultValuePipe
+  - ParseFilePipe
+
 ### install step
 
 - npm i -g @nestjs/cli

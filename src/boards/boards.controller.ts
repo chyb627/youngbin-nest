@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, ValidationPipe } from '@nestjs/common';
 import { BoardsService } from './boards.service';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateBoardsDto } from './dto/create-boards.dto';
 
 @Controller('boards')
 @ApiTags('Boards')
@@ -15,25 +16,25 @@ export class BoardsController {
 
   // 게시물 하나 가져오기
   @Get(':id')
-  find(@Param('id') id: string) {
-    return this.boardsService.find(Number(id));
+  find(@Param('id', ParseIntPipe) id: number) {
+    return this.boardsService.find(id);
   }
 
   // 게시물 등록하기
   @Post()
-  create(@Body() data) {
+  create(@Body(new ValidationPipe()) data: CreateBoardsDto) {
     return this.boardsService.create(data);
   }
 
   // 게시물 수정하기
   @Put(':id')
-  update(@Param('id') id: string, @Body() data) {
-    return this.boardsService.update(Number(id), data);
+  update(@Param('id', ParseIntPipe) id: number, @Body() data: CreateBoardsDto) {
+    return this.boardsService.update(id, data);
   }
 
   // 게시물 삭제하기
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.boardsService.remove(Number(id));
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.boardsService.remove(id);
   }
 }
