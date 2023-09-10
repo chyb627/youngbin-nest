@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Validati
 import { BoardsService } from './boards.service';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateBoardsDto } from './dto/create-boards.dto';
+import { UpdateBoardsDto } from './dto/update-boards.dto';
 
 @Controller('boards')
 @ApiTags('Boards')
@@ -28,7 +29,7 @@ export class BoardsController {
 
   // 게시물 수정하기
   @Put(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() data: CreateBoardsDto) {
+  update(@Param('id', ParseIntPipe) id: number, @Body(new ValidationPipe()) data: UpdateBoardsDto) {
     return this.boardsService.update(id, data);
   }
 
