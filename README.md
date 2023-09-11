@@ -218,6 +218,48 @@ export class CreateUserDto {
   - DefaultValuePipe
   - ParseFilePipe
 
+21. NestJS 데코레이터
+
+- 클래스, 메서드, 매개변수, 속성
+- 클래스 데코레이터
+  - @Module() : 모듈 클래스를 정의
+  - @Controller() : 컨트롤러 클래스
+  - @Injectable() : 서비스 클래스
+- 메서드 데코레이터
+  - HTTP 요청 데코레이터 @Get(), @Post(), @Put(), @Delete()
+- 매개변수 데코레이터
+  - @Req(), @Res()
+  - @Body(), @Query(), @Param()
+  - 컨트롤러의 메서드에서 들어오는 요청을 처리할때 필요한 데이터를 추출하는데 사용
+- 속성 데코레이터
+  - @Entity(), @PrimaryGeneratedColumn(), @Column(), @CreateDateColumn(), @UpdateDateColumn()
+  - 클래스의 속성에 추가적인 메타데이터를 제공 하거나 속성의 동작을 변경하는데 사용
+  - 일반적으로 ORM 라이브러리에서 많이 사용
+
+22. Exception filters
+
+- 프로그램 실행 중 예외가 발생하면 해당 예외를 처리하는 코드로 라우팅
+- Global Exception
+
+```js
+{
+  "statusCode": 500,
+  "message": "Internal server error"
+}
+
+@Get()
+async findAll() {
+  throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+}
+```
+
+- 내장 Exception
+  - BadRequestException
+  - UnauthorizedException
+  - NotFoundException
+  - ForbiddenException
+  - NotAcceptableException
+
 ### install step
 
 - npm i -g @nestjs/cli
