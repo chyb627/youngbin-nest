@@ -90,8 +90,8 @@ export class UsersModule {}
 - 모든 표준 HTTP 메서드를 테코레이터 제공한다.
 
 ```js
-@Controller('boards')
-export class DashboardsController {
+@Controller('board')
+export class DashboardController {
   @Get()
   get(): string {
     return 'get';
@@ -260,6 +260,21 @@ async findAll() {
   - ForbiddenException
   - NotAcceptableException
 
+23. TypeORM
+
+- 타입스크립트와 자바스크립트를 위한 ORM(Object-Relational Mapping) 라이브러리
+- Active Record 패턴, Data Mapper 패턴 지원
+- 타입스크립트 지원
+- 다양한 데이터베이스 지원
+- Migration 지원
+- 데이터베이스 연관관계 지원
+- Active Record 패턴
+  - 모든 Query메서드들을 모델에 정의하고 객체의 저장, 제거 그리고 불러오는 기능들은 모델의 메서드를 통해 사용하는 패턴
+  - Repository, Entity Manager 불필요
+- Data Mapper 패턴
+  - 모든 Query메서드들을 별도의 클래스에 정의
+  - 별도 생성된 클래스 = Repository
+
 ### install step
 
 - npm i -g @nestjs/cli
@@ -270,15 +285,15 @@ async findAll() {
 
 ### module 생성
 
-- nest g module boards(모듈명, 복수로 짓는게 일반적임)
+- nest g module board
 
 ### controller 생성
 
-- nest g controller boards(컨트롤러명)
+- nest g controller board(컨트롤러명)
 
 ### service 생성
 
-- nest g service boards(서비스명)
+- nest g service board(서비스명)
 
 ### middleware 생성
 
@@ -288,20 +303,19 @@ async findAll() {
 
 - 파이프는 클라이언트 요청에서 들어오는 데이터를 유효성 검사 및 변환을 수행하여 서버가 원하는 데이터를 얻을 수 있도록 도와주는 클래스.
 
-### Docker Setting
+### Docker Setting & postgresql
 
 - docker pull postgres
 - docker run -d -p 5432:5432 --name pgsql -e POSTGRES_PASSWORD=1234 postgres
-- docker exec -it postgres bash
-- psql -U postgres
-- CREATE DATABASE youngbindb;
 
-#### postgresql
+- docker ps // 실행중인 모든 컨테이너의 목록을 확인
+- docker exec -it postgres bash // 도커 컨테이너에 접속
+- psql -U postgres // PostgreSQL 데이터베이스에 postgres 사용자로 접속하라는 명령
 
-1. SELECT datname FROM pg_database; // show databases
-2. CREATE DATABASE youngbindb; //create
-3. \c youngbindb; // use db
-4. SELECT _ FROM "public"."user"; // SELECT _ FROM user
+- SELECT datname FROM pg_database; // show databases
+- CREATE DATABASE youngbindb; // 데이터베이스 생성
+- \c youngbindb; // 데이터베이스가 있을경우 use db
+- SELECT \* FROM "public"."user"; // SELECT \* FROM user
 
 ### Docker yml 컨테이너 실행
 
