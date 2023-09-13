@@ -275,6 +275,25 @@ async findAll() {
   - 모든 Query메서드들을 별도의 클래스에 정의
   - 별도 생성된 클래스 = Repository
 
+24. Bcrypt
+
+- 비밀번호 해싱에 사용되는 오픈소스 알고리즘
+- 단방향 암호화 알고리즘
+- 암호화시 고유한 Salt를 생성하여 해시에 포함하여 레인보우 테이블 공격을 방어
+
+25. Json Web Token(JWT)
+
+- Json 형식의 토큰에 대한 표준 규격
+- Base64로 인코딩
+- 서버와 클라이언트 간의 사용자 인증(authentication)과 인가(authorization)정보를 주고받기 위해 사용
+- 주로 클라이언트에서 Authorization HTTP 헤더에 Bearer <토큰>으로 설정하여 서버로 전송
+- JWT는 HEADER, PAYLOAD, SIGNATURE로 세가지로 구조들이 암호화되어 하나의 토큰으로 생성된다.
+
+26. 객체직렬화
+
+- Nest에서는 데이터의 타입에 따라 자동으로 객체를 직렬화
+- ClassSerializerInterceptor : 응답을 보내기 전에 응답 객체의 Entity, DTO에 class transformer 데코레이터를 맞게 응답객체를 변형하는 인터셉터
+
 ### install step
 
 - npm i -g @nestjs/cli

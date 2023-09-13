@@ -14,4 +14,5 @@ export const typeORMConfig: TypeOrmModuleOptions = {
   database: process.env.DB_NAME,
   entities: [__dirname + '/**/*.entity{.ts,.js}', Board, User],
   synchronize: false,
+  logging: true,
 };
