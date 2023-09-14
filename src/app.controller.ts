@@ -1,4 +1,4 @@
-import { Controller, Get, Logger, Post, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Logger, Post, Query, Request, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Ip } from './decorators/ip.decorator';
 import { ConfigService } from '@nestjs/config';
@@ -22,6 +22,11 @@ export class AppController {
     console.log(this.configService.get<string>('ENVIRONMENT'));
     return this.appService.getHello();
     // throw new HttpException('NOT_FOUND', HttpStatus.NOT_FOUND);
+  }
+
+  @Get('name')
+  getName(@Query('name') name: string): string {
+    return `${name} World!`;
   }
 
   @UseGuards(LocalAuthGuard)
