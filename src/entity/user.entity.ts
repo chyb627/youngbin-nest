@@ -8,9 +8,9 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({ description: '유저아이디', example: 'admin' })
+  @ApiProperty({ description: '이메일', example: 'test@test.com' })
   @Column({ unique: true })
-  username: string;
+  email: string;
 
   @ApiProperty({ description: '비밀번호' })
   @Column()

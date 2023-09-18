@@ -8,8 +8,8 @@ import { UserService } from 'src/routes/user/user.service';
 export class AuthService {
   constructor(private readonly userService: UserService, private readonly jwtService: JwtService) {}
 
-  async validateUser(username: string, password: string) {
-    const user = await this.userService.getUserByUsername(username);
+  async validateUser(email: string, password: string) {
+    const user = await this.userService.getUserByEmail(email);
 
     if (user) {
       const match = await compare(password, user.password);
@@ -26,7 +26,7 @@ export class AuthService {
   async login(user: User) {
     const payload = {
       id: user.id,
-      username: user.username,
+      email: user.email,
       name: user.name,
     };
 

@@ -20,7 +20,7 @@ describe('e2e 테스트', () => {
       return request(app.getHttpServer())
         .post('/login')
         .send({
-          username: 'yb',
+          email: 'test@test.com',
           password: '12345678',
         })
         .expect(201);
