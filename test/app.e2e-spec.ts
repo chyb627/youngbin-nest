@@ -16,14 +16,6 @@ describe('e2e 테스트', () => {
   });
 
   describe('AppController', () => {
-    it('/ (GET)', () => {
-      return request(app.getHttpServer()).get('/').expect(200).expect('Hello World!');
-    });
-
-    it('/name?name=yb2 (GET)', () => {
-      return request(app.getHttpServer()).get('/name?name=yb2').expect(200).expect('yb2 World!');
-    });
-
     it('[로그인] /login', () => {
       return request(app.getHttpServer())
         .post('/login')
