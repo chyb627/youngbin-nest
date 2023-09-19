@@ -8,10 +8,11 @@ async function bootstrap() {
   // app.useGlobalFilters(new HttpExceptionFilter);
 
   const config = new DocumentBuilder()
-    .setTitle('Simple Board')
-    .setDescription('The Simple Board API description')
+    .setTitle('YB-Nest API')
+    .setDescription('YoungBin Nest API description')
     .setVersion('1.0')
     .addTag('Board')
+    .addTag('User')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

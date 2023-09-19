@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { AuthService } from './auth/auth.service';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller()
 export class AppController {
@@ -15,12 +16,14 @@ export class AppController {
 
   private readonly logger = new Logger();
 
+  @ApiTags('User')
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req) {
     return this.authService.login(req.user);
   }
 
+  @ApiTags('User')
   @UseGuards(JwtAuthGuard)
   @Get('me')
   async me(@Request() req) {
