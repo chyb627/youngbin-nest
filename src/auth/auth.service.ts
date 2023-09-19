@@ -1,37 +1,30 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { compare } from 'bcrypt';
-import { User } from 'src/entity/user.entity';
-import { UserService } from 'src/routes/user/user.service';
+import * as bcrypt from 'bcrypt';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService, private readonly jwtService: JwtService) {}
+  constructor(private userService: UserService, private jwtService: JwtService) {}
 
-  async validateUser(email: string, password: string) {
-    const user = await this.userService.getUserByEmail(email);
-
-    if (user) {
-      const match = await compare(password, user.password);
-
-      if (match) {
-        return user;
-      } else {
-        return null;
-      }
-    }
-    return null;
+  async signup(email: string, password: string) {
+    const user = await this.userService.findOneByEmail(email);
+    if (user) throw new BadRequestException('Email is already existed');
+    const saltOrRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltOrRounds);
+    const newUser = await this.userService.create(email, hashedPassword);
+    return newUser;
   }
 
-  async login(user: User) {
-    const payload = {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-    };
+  async signin(email: string, password: string) {
+    const user = await this.userService.findOneByEmail(email);
+    if (!user) throw new UnauthorizedException();
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) throw new UnauthorizedException();
 
     return {
-      accessToken: this.jwtService.sign(payload),
+      accessToken: this.jwtService.sign({ sub: user.id }),
     };
   }
 }

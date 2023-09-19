@@ -338,7 +338,12 @@ async findAll() {
 
 ### Docker yml 컨테이너 실행
 
-- docker-compose up
+- docker-compose up // 컨테이너 올리기
+- docker ps --all // 컨테이너 확인
+- psql -U postgres -h localhost -p 5434 // 로컬호스트에서 DB에 psql로 바로 접속. 다른 클라이언트 툴을 이용해 접속하는 것도 가능
+- docker exec -it <CONTAINER_ID> psql -U postgres // 실행중인 도커 컨테이너에서 프로세스 실행. 셀을 실행해서 인터렉티브한 환경에서 컨테이너 환경을 탐색하는 것도 가능.
+- docker exec -it bdb035e27686 psql -U postgres
+- docker-compose down // 컨테이너 내리기
 
 ### 비밀번호 암호화
 
