@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Video } from '../entity/video.entity';
 
 export class CreateVideoResDto {
   @ApiProperty({ required: true })
@@ -7,13 +6,9 @@ export class CreateVideoResDto {
 
   @ApiProperty({ required: true })
   title: string;
-
-  static toDto({ id, title }: Video) {
-    return { id, title };
-  }
 }
 
-export class VideoUserDto {
+export class FindVideoUserResDto {
   @ApiProperty({ required: true })
   id: string;
 
@@ -29,9 +24,5 @@ export class FindVideoResDto {
   title: string;
 
   @ApiProperty({ required: true })
-  user: VideoUserDto;
-
-  static toDto({ id, title, user: { id: userId, email } }: Video) {
-    return { id, title, user: { id: userId, email } };
-  }
+  user: FindVideoUserResDto;
 }

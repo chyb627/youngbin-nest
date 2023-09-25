@@ -1,6 +1,5 @@
 import { Video } from 'src/video/entity/video.entity';
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { UserRole } from '../enum/user.enum';
 
 @Entity()
 export class User {
@@ -12,9 +11,6 @@ export class User {
 
   @Column()
   password: string;
-
-  @Column({ type: 'enum', enum: UserRole, default: UserRole.Normal })
-  role: UserRole;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

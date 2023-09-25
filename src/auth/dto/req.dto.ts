@@ -11,11 +11,6 @@ export class SignupReqDto {
   @Matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{10,30}$/)
   password: string;
 
-  // ChatGPT
-  // Please explain the JavaScript regular expression below
-  // /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/
-  // Please translate the above into Korean
-  // @NotIncludeNickname()
   @ApiProperty({ required: true, example: 'Password1!' })
   @Matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{10,30}$/)
   passwordConfirm: string;

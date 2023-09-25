@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entity/user.entity';
@@ -7,15 +7,12 @@ import { User } from './entity/user.entity';
 export class UserService {
   constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}
 
-  async findAll(page: number, size: number) {
-    const users = this.userRepository.find({ skip: (page - 1) * size, take: size });
-    return users;
+  async findAll() {
+    return 'find users';
   }
 
   async findOne(id: string) {
-    const user = await this.userRepository.findOneBy({ id });
-    if (!user) throw new NotFoundException('No user');
-    return user;
+    return 'find user';
   }
 
   async create(email: string, password: string) {
