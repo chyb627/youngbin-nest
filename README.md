@@ -294,6 +294,11 @@ async findAll() {
 - Nest에서는 데이터의 타입에 따라 자동으로 객체를 직렬화
 - ClassSerializerInterceptor : 응답을 보내기 전에 응답 객체의 Entity, DTO에 class transformer 데코레이터를 맞게 응답객체를 변형하는 인터셉터
 
+27. 인증(Authentication), 인가(Authorization)
+
+- 인증은 유저나 디바이스의 신원을 증명하는 행위
+- 인가는 유저나 디바이스에게 접근권한을 부여하거나 거부하는 행위
+
 ### install step
 
 - npm i -g @nestjs/cli
