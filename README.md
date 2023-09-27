@@ -299,6 +299,10 @@ async findAll() {
 - 인증은 유저나 디바이스의 신원을 증명하는 행위
 - 인가는 유저나 디바이스에게 접근권한을 부여하거나 거부하는 행위
 
+28. Interceptor
+
+- Interceptor는 클라이언트 요청에 대해서 라우터의 핸들러가 처리를 하기 전후로 호출되는 모듈.
+
 ### install step
 
 - npm i -g @nestjs/cli
