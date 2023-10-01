@@ -391,3 +391,10 @@ async findAll() {
   - Error : 치명적이거나 파괴적인 처리되지 않은 문제.
   - Debug : 오류 발생시 로직을 디버그하는 데 도움이되는 유용한 정보. 개발자용.
   - Verbose : 응용 프로그램의 동작에 대한 통찰력을 제공하는 정보.
+
+### Typeorm migration
+
+- 마이그레이션 생성
+  - npm run typeorm migration:generate src/migrations/Init
+- 마이그레이션 실행
+  - npm run typeorm migration:run
