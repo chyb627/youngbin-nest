@@ -308,6 +308,10 @@ async findAll() {
 - 트랜잭션은 데이터베이스의 상태를 변화시키는 하나의 작업 단위 또는 한번에 모두 수행되어야 할 일련의 연산들을 의미한다. 에러가 발생했을때 이전의 상태로 되돌리기 위해 데이터베이스에서 제공하는 기능.
 - START TRANSACTION은 INSERT나 UPDATE같은 데이터를 변경하는 행동이 있으면 default로 시작이 되고, 이후에 COMMIT을 통해 완료가 된다.
 
+30. Index
+
+- 인덱스는 테이블의 동작속도, 조회속도를 높여주는 자료구조이다. 데이터의 위치를 빠르게 찾아주는 역할이다. 인덱스를 설정하는 자체가 데이터베이스의 resource를 활용하는것이기 때문에 무조건 사용하는게 아니라 조회시 자주 사용되고 고유한값을 매 row마다 갖는 컬럼에 사용하는 것이 좋다.
+
 ### install step
 
 - npm i -g @nestjs/cli
@@ -349,6 +353,8 @@ async findAll() {
 - CREATE DATABASE youngbindb; // 데이터베이스 생성
 - \c youngbindb; // 데이터베이스가 있을경우 use db
 - SELECT \* FROM "public"."user"; // SELECT \* FROM user
+
+- \d+ "user" // user테이블의 설정값을 확인할 수 있다.
 
 ### Docker yml 컨테이너 실행
 

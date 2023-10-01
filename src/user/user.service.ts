@@ -34,4 +34,13 @@ export class UserService {
     const user = await this.userRepository.findOneBy({ id });
     return user.role === Role.Admin;
   }
+
+  async createBulk() {
+    for (let i = 3; i <= 10000; i++) {
+      await this.userRepository.save(
+        this.userRepository.create({ email: `test${i}@test.com`, password: 'Password1!' }),
+      );
+    }
+    return;
+  }
 }
