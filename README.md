@@ -303,6 +303,11 @@ async findAll() {
 
 - Interceptor는 클라이언트 요청에 대해서 라우터의 핸들러가 처리를 하기 전후로 호출되는 모듈.
 
+29. Transaction
+
+- 트랜잭션은 데이터베이스의 상태를 변화시키는 하나의 작업 단위 또는 한번에 모두 수행되어야 할 일련의 연산들을 의미한다. 에러가 발생했을때 이전의 상태로 되돌리기 위해 데이터베이스에서 제공하는 기능.
+- START TRANSACTION은 INSERT나 UPDATE같은 데이터를 변경하는 행동이 있으면 default로 시작이 되고, 이후에 COMMIT을 통해 완료가 된다.
+
 ### install step
 
 - npm i -g @nestjs/cli

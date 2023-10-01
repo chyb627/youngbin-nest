@@ -3,21 +3,48 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserService } from 'src/user/user.service';
 import { RefreshToken } from './entity/refresh-token.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
+import { User } from 'src/user/entity/user.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private dataSource: DataSource,
     private userService: UserService,
     private jwtService: JwtService,
     @InjectRepository(RefreshToken) private refreshTokenRepository: Repository<RefreshToken>,
   ) {}
 
   async signup(email: string, password: string) {
-    const user = await this.userService.findOneByEmail(email);
-    if (user) throw new BadRequestException('Email is already existed');
-    const newUser = await this.userService.create(email, password);
-    return newUser;
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction(); // 트랜잭션 시작
+
+    let error;
+    try {
+      const user = await this.userService.findOneByEmail(email);
+      if (user) throw new BadRequestException('Email is already existed');
+      const userEntity = queryRunner.manager.create(User, { email, password });
+      await queryRunner.manager.save(userEntity);
+      // throw new Error('새로운 USER를 DB에 저장하고 서버상에 에러가 나는경우');
+      // 위와 같이 에러가 발생하면 트랜잭션을 명시적으로 사용하지 않고 default로 사용하면 DB는 저장이되지만 refresh-token은 발생하지 않게 된다.
+      // 데이터의 정확성이 깨질 수 있게 된다.
+      const accessToken = this.generateAccessToken(userEntity.id);
+      const refreshToken = this.generateRefreshToken(userEntity.id);
+      const refreshTokenEntity = queryRunner.manager.create(RefreshToken, {
+        user: { id: userEntity.id },
+        token: refreshToken,
+      });
+      await queryRunner.manager.save(refreshTokenEntity);
+      await queryRunner.commitTransaction(); // COMMIT
+      return { id: userEntity.id, accessToken, refreshToken };
+    } catch (e) {
+      await queryRunner.rollbackTransaction(); // 에러가 나는경우 트랜잭션 롤백.
+      error = e;
+    } finally {
+      await queryRunner.release();
+      if (error) throw error;
+    }
   }
 
   async signin(email: string, password: string) {
