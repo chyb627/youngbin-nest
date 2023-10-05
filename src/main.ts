@@ -5,6 +5,8 @@ import { AppModule } from './app.module';
 import { WinstonModule, utilities } from 'nest-winston';
 import * as winston from 'winston';
 import { TransformInterceptor } from './common/interceptor/transform.interceptor';
+import { ConfigService } from '@nestjs/config';
+import * as basicAuth from 'express-basic-auth';
 
 async function bootstrap() {
   const port = 8000;
@@ -22,20 +24,35 @@ async function bootstrap() {
     }),
   });
 
+  const configService = app.get(ConfigService);
+  const stage = configService.get('STAGE');
+
   // Swagger
-  const config = new DocumentBuilder()
-    .setTitle('Youngbin Nest')
-    .setDescription('NestJS project API description')
-    .setVersion('1.0')
-    .addBearerAuth()
-    .build();
-  const customOptions: SwaggerCustomOptions = {
-    swaggerOptions: {
-      persistAuthorization: true,
-    },
-  };
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document, customOptions);
+  const SWAGGER_ENVS = ['local', 'dev'];
+  if (SWAGGER_ENVS.includes(stage)) {
+    app.use(
+      ['/api', '/api-json'],
+      basicAuth({
+        challenge: true,
+        users: {
+          [configService.get('swagger.user')]: configService.get('swagger.password'),
+        },
+      }),
+    );
+    const config = new DocumentBuilder()
+      .setTitle('Youngbin Nest')
+      .setDescription('NestJS project API description')
+      .setVersion('1.0')
+      .addBearerAuth()
+      .build();
+    const customOptions: SwaggerCustomOptions = {
+      swaggerOptions: {
+        persistAuthorization: true,
+      },
+    };
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api', app, document, customOptions);
+  }
 
   // ValidationPipe 전역 적용
   app.useGlobalPipes(
