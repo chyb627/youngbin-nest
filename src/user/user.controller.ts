@@ -23,6 +23,7 @@ export class UserController {
   @Get()
   async findAll(@Query() { page, size }: PageReqDto, @User() user: UserAfterAuth): Promise<FindUserResDto[]> {
     console.log(user);
+    // throw Error('error test');
     const users = await this.userService.findAll(page, size);
     return users.map(({ id, email, createdAt }) => {
       return { id, email, createdAt: createdAt.toISOString() };
