@@ -35,3 +35,7 @@ lerna-debug.log*
 !.vscode/extensions.json
 /data
 /yarn.lock
+
+#video local storage
+/video-storage
+*.mp4

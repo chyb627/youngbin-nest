@@ -34,7 +34,7 @@ import sentryConfig from './config/sentry.config';
           username: configService.get('postgres.username'),
           password: configService.get('postgres.password'),
           autoLoadEntities: true,
-          synchronize: false,
+          synchronize: false, // 테이블 자동생성 T/F
         };
         if (configService.get('STAGE') === 'local') {
           obj = Object.assign(obj, {
