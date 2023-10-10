@@ -1,14 +1,14 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerCustomOptions, SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './app.module';
 import { WinstonModule, utilities } from 'nest-winston';
 import * as winston from 'winston';
-import { TransformInterceptor } from './common/interceptor/transform.interceptor';
 import { ConfigService } from '@nestjs/config';
 // import * as basicAuth from 'express-basic-auth';
-import { SentryInterceptor } from './common/interceptor/sentry.interceptor';
 import * as Sentry from '@sentry/node';
+import { AppModule } from './app.module';
+import { TransformInterceptor } from './common/interceptor/transform.interceptor';
+import { SentryInterceptor } from './common/interceptor/sentry.interceptor';
 
 async function bootstrap() {
   const port = 8000;
